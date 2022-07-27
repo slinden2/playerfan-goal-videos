@@ -1,0 +1,97 @@
+<script>
+	import VideoHolder from '../VideoHolder/VideoHolder.svelte';
+
+	import MetaData from './MetaData.svelte';
+
+	export let goalData;
+	export let toggleModal;
+
+	$: firstName = goalData.player.first_name;
+	$: lastName = goalData.player.last_name;
+	$: position = goalData.player.position;
+	$: playerLink = goalData.player.link;
+	$: avatar = goalData.player.img_link;
+	$: title = goalData.title;
+	$: nationality = goalData.player.nationality;
+	$: teamLink = goalData.team.link;
+	$: teamLogoLink = goalData.team.logo_link;
+	$: teamName = goalData.team.name;
+
+	const date = new Date(goalData.date).toLocaleDateString();
+</script>
+
+<div class="video-card">
+	<div class="img-container" on:click={() => toggleModal(VideoHolder, goalData)}>
+		<img class="thumbnail" src={goalData.thumbnail} alt={goalData.title} title={goalData.title} />
+		<div class="overlay date">{date}</div>
+		<div class="overlay duration">{goalData.duration}</div>
+		<div class="arrow-right" />
+	</div>
+	<MetaData
+		{firstName}
+		{lastName}
+		{position}
+		{playerLink}
+		{avatar}
+		{title}
+		{nationality}
+		{teamLink}
+		{teamLogoLink}
+		{teamName}
+	/>
+</div>
+
+<style>
+	.video-card {
+		max-width: 360px;
+		margin: 0 auto;
+	}
+
+	.img-container {
+		cursor: pointer;
+		position: relative;
+	}
+
+	.thumbnail {
+		display: block;
+		width: 100%;
+	}
+
+	.overlay {
+		position: absolute;
+		font-size: 1rem;
+		font-weight: bolder;
+		border-radius: 2px;
+		background-color: rgba(0, 0, 0, 0.6);
+		padding: 4px;
+	}
+
+	.overlay.date {
+		top: 10px;
+		left: 10px;
+	}
+
+	.overlay.duration {
+		bottom: 10px;
+		right: 10px;
+	}
+
+	.arrow-right {
+		width: 0;
+		height: 0;
+		border-top: 25px solid transparent;
+		border-bottom: 25px solid transparent;
+		border-left: 25px solid var(--playArrowColor);
+		position: absolute;
+		margin: auto;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		transition: border 200ms ease-out;
+	}
+
+	.img-container:hover .arrow-right {
+		border-left: 25px solid var(--playArrowColorHover);
+	}
+</style>
