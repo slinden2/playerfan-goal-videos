@@ -38,7 +38,7 @@ opponent:opponent_id!inner(
 )
 `;
 
-export async function get({ locals, url }) {
+export async function GET({ locals, url }) {
 	const filterByName = url.searchParams.get('name');
 	const filterByTeam = url.searchParams.get('for');
 	const filterByOpponent = url.searchParams.get('against');
