@@ -54,11 +54,19 @@ export async function GET({ locals, url }) {
 	}
 
 	if (filterByTeam) {
-		query = query.ilike('team.name', `%${filterByTeam}%`);
+		if (filterByTeam.length === 3) {
+			query = query.ilike('team.abbreviation', `%${filterByTeam}%`);
+		} else {
+			query = query.ilike('team.name', `%${filterByTeam}%`);
+		}
 	}
 
 	if (filterByOpponent) {
-		query = query.ilike('opponent.name', `%${filterByOpponent}%`);
+		if (filterByOpponent.length === 3) {
+			query = query.ilike('opponent.abbreviation', `%${filterByOpponent}%`);
+		} else {
+			query = query.ilike('opponent.name', `%${filterByOpponent}%`);
+		}
 	}
 
 	if (filterByNationality) {
