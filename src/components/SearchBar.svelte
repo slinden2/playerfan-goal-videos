@@ -69,8 +69,8 @@
 				<h3>Available modifiers</h3>
 				<ol>
 					<li>name (player name)</li>
-					<li>for (team name / city)</li>
-					<li>against (team name / city)</li>
+					<li>for (team name / city / abbreviation)</li>
+					<li>against (team name / city / abbreviation)</li>
 					<li>country</li>
 				</ol>
 				<p>
