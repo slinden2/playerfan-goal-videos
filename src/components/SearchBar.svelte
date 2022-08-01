@@ -18,7 +18,7 @@
 	}
 
 	function handleOnSubmit() {
-		const re = /((name|for|against|country):"[\w\s]+")/g;
+		const re = /((name|for|against|country|season):"[\w\s]+")/g;
 		let matches = value.match(re);
 
 		if (!matches) {
@@ -64,6 +64,7 @@
 					<li>name:"Ovechkin" against:"Flyers"</li>
 					<li>for:"leafs" against:"ottawa"</li>
 					<li>country:"FIN"</li>
+					<li>for:"avalanche" season:"2021"</li>
 				</ul>
 				<hr />
 				<h3>Available modifiers</h3>
@@ -72,6 +73,7 @@
 					<li>for (team name / city / abbreviation)</li>
 					<li>against (team name / city / abbreviation)</li>
 					<li>country</li>
+					<li>season</li>
 				</ol>
 				<p>
 					Note that if <strong>any</strong> modifiers are used and the search includes a player name,

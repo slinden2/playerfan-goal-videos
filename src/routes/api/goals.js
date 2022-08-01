@@ -43,6 +43,7 @@ export async function GET({ locals, url }) {
 	const filterByTeam = url.searchParams.get('for');
 	const filterByOpponent = url.searchParams.get('against');
 	const filterByNationality = url.searchParams.get('country');
+	const filterBySeason = url.searchParams.get('season');
 	const offset = url.searchParams.get('offset');
 
 	let query = locals.supabase.from('goals').select(FIELDS);
@@ -71,6 +72,10 @@ export async function GET({ locals, url }) {
 
 	if (filterByNationality) {
 		query = query.ilike('player.nationality', filterByNationality);
+	}
+
+	if (filterBySeason) {
+		query = query.eq('season', parseInt(filterBySeason));
 	}
 
 	const lowerLimit = offset ? parseInt(offset) : 0;
