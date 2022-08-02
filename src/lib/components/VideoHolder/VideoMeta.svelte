@@ -89,6 +89,7 @@
 
 	.flag-wrapper {
 		display: flex;
+		align-items: center;
 	}
 
 	.name-container {
@@ -165,7 +166,6 @@
 
 		.flag-wrapper :global(.flag) {
 			width: 36px;
-			align-self: center;
 		}
 
 		.team-container span {
