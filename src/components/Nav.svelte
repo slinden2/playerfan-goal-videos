@@ -1,20 +1,22 @@
 <script>
 	import Logo from '$lib/assets/Logo.svelte';
-	import SearchBar from './SearchBar.svelte';
+	import SearchBar from './SearchBar/SearchBar.svelte';
 </script>
 
 <div class="nav-container">
 	<div class="logo flex-item left">
 		<a href="/" alt="Playerfan"><Logo class="logo-svg" /></a>
 	</div>
-	<div class="search flex-item"><SearchBar /></div>
+	<div class="search flex-item">
+		<SearchBar />
+	</div>
 	<div class="right" />
 </div>
 
 <style>
 	.nav-container {
 		background-color: var(--black2);
-		height: var(--header-height);
+		height: var(--header-height-mobile);
 		border-bottom: 2px solid var(--black3);
 	}
 
@@ -41,6 +43,7 @@
 	@media screen and (min-width: 640px) {
 		.nav-container {
 			display: flex;
+			height: var(--header-height);
 		}
 
 		.logo :global(.logo-svg) {

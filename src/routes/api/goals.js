@@ -44,6 +44,7 @@ export async function GET({ locals, url }) {
 	const filterByOpponent = url.searchParams.get('against');
 	const filterByNationality = url.searchParams.get('country');
 	const filterBySeason = url.searchParams.get('season');
+	const filterByType = url.searchParams.get('type');
 	const offset = url.searchParams.get('offset');
 
 	let query = locals.supabase.from('goals').select(FIELDS);
@@ -76,6 +77,10 @@ export async function GET({ locals, url }) {
 
 	if (filterBySeason) {
 		query = query.eq('season', parseInt(filterBySeason));
+	}
+
+	if (filterByType) {
+		query = query.eq('game_type', filterByType);
 	}
 
 	const lowerLimit = offset ? parseInt(offset) : 0;
