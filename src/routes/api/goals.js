@@ -47,7 +47,9 @@ export async function GET({ locals, url }) {
 	const filterByType = url.searchParams.get('type');
 	const offset = url.searchParams.get('offset');
 
-	let query = locals.supabase.from('goals').select(FIELDS);
+	const countType =
+		filterByName || filterByTeam || filterByOpponent || filterByNationality ? 'exact' : 'estimated';
+	let query = locals.supabase.from('goals').select(FIELDS, { count: countType });
 
 	if (filterByName) {
 		query = query.or(`first_name.ilike.${filterByName},last_name.ilike.${filterByName}`, {
@@ -85,10 +87,11 @@ export async function GET({ locals, url }) {
 
 	const lowerLimit = offset ? parseInt(offset) : 0;
 	const numOfResults = 24;
+	const upperLimit = lowerLimit + numOfResults;
 
-	const { data, error } = await query
+	const { data, error, count } = await query
 		.order('timestamp', { ascending: false })
-		.range(lowerLimit, lowerLimit + numOfResults);
+		.range(lowerLimit, upperLimit);
 
 	return new Promise((resolve, reject) => {
 		if (data) {
@@ -97,7 +100,7 @@ export async function GET({ locals, url }) {
 					'cache-control': 'public, max-age=600'
 				},
 				status: 200,
-				body: { goals: data }
+				body: { goals: data, count }
 			});
 		} else {
 			reject({

@@ -1,10 +1,10 @@
 <script context="module">
 	export async function load({ fetch, params }) {
 		const res = await fetch(`/api/goals?${params.search}`);
-		const { goals } = await res.json();
+		const { goals, count } = await res.json();
 		if (res.ok) {
 			return {
-				props: { goals, search: params }
+				props: { goals, count, search: params }
 			};
 		}
 	}
@@ -14,6 +14,7 @@
 	import MainWindow from '$lib/components/MainWindow.svelte';
 
 	export let goals;
+	export let count;
 	export let search;
 </script>
 
@@ -21,4 +22,4 @@
 	<title>PlayerFan</title>
 </svelte:head>
 
-<MainWindow {goals} {...search} />
+<MainWindow {goals} {count} {...search} />

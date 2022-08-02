@@ -1,22 +1,26 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { browser } from '$app/env';
 	import Modal from './Modal.svelte';
 	import VideoCard from './VideoCard/VideoCard.svelte';
 	import goalStore from '$lib/stores/goalStore';
 
 	export let goals;
+	export let count;
 	export let search;
-
-	let goalsAvailable = true;
-
-	$: goalStore.set(goals);
-	$: goalsAvailable;
 
 	let showModal = false;
 	let scrollTop = null;
 	let scrollLeft = null;
 	let modalContent;
 	let modalProps = {};
+	let moreGoalsAvailable;
+	const limit = 25;
+
+	$: {
+		goalStore.set(goals);
+		moreGoalsAvailable = !!count && count > limit;
+	}
 
 	function toggleModal(component, props) {
 		modalContent = component;
@@ -46,31 +50,47 @@
 		enableScroll();
 	}
 
-	$: showMoreGoals;
 	async function showMoreGoals() {
-		const newOffset = $goalStore.length;
-		try {
-			const queryUrl = !search
-				? `/api/goals?offset=${newOffset}`
-				: `../api/goals?${search}&offset=${newOffset}`;
-			const response = await fetch(queryUrl);
-			const { goals } = await response.json();
-			goalStore.set([...$goalStore, ...goals]);
-			if (newOffset >= $goalStore.length) {
-				goalsAvailable = false;
+		if (moreGoalsAvailable) {
+			const newOffset = $goalStore.length;
+			try {
+				const queryUrl = !search
+					? `/api/goals?offset=${newOffset}`
+					: `../api/goals?${search}&offset=${newOffset}`;
+				const response = await fetch(queryUrl);
+				const { goals } = await response.json();
+				goalStore.set([...$goalStore, ...goals]);
+				if (newOffset + limit >= count) {
+					moreGoalsAvailable = false;
+				}
+			} catch (err) {
+				console.error('Error fetching more posts in MainWindow');
 			}
-		} catch (err) {
-			console.error('Error fetching more posts in MainWindow');
 		}
 	}
 </script>
 
-<div class="video-container">
-	{#each $goalStore as goalData}
-		<VideoCard {goalData} {toggleModal} />
-	{/each}
-</div>
-{#if goalsAvailable}
+{#if count}
+	<div class="video-container">
+		{#each $goalStore as goalData}
+			<VideoCard {goalData} {toggleModal} />
+		{/each}
+	</div>
+{:else}
+	<div class="no-results">
+		<div>
+			<p>No results found.</p>
+			<p>
+				Please try a different search. Click the question mark next to the search bar for search
+				tips.
+			</p>
+		</div>
+		<div class="load-more">
+			<button on:click={() => goto('/')}>Back</button>
+		</div>
+	</div>
+{/if}
+{#if moreGoalsAvailable}
 	<div class="load-more">
 		<button on:click={showMoreGoals}>Load More</button>
 	</div>
@@ -87,6 +107,14 @@
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		grid-column-gap: 1.6rem;
 		grid-row-gap: 2rem;
+	}
+
+	.no-results {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 4rem;
+		text-align: center;
 	}
 
 	@media screen and (min-width: 640px) {
