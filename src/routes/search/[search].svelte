@@ -11,7 +11,7 @@
 </script>
 
 <script>
-	import MainWindow from '../../components/MainWindow.svelte';
+	import MainWindow from '$lib/components/MainWindow.svelte';
 
 	export let goals;
 	export let search;
