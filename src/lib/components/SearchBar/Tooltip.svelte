@@ -24,7 +24,7 @@
 		</p>
 		<p class="example">Examples:</p>
 		<ul>
-			<li>name:"Ovechkin" against:"Flyers"</li>
+			<li>name:"Seguin" against:"Flyers"</li>
 			<li>for:"leafs" against:"ottawa"</li>
 			<li>country:"FIN"</li>
 			<li>for:"avalanche" season:"2021"</li>
