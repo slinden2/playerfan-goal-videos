@@ -9,13 +9,13 @@
 		</a>
 		<p>
 			<span class="string">BBIK5</span>
-			<span>con</span><span class="string">BBWSj</span><span>tact</span><span class="string"
+			<span>player</span><span class="string">BBWSj</span><span>fansite</span><span class="string"
 				>hPkon</span
-			><span>@</span><span class="string">b9YdS</span><span>play</span><span class="string"
+			><span>@</span><span class="string">b9YdS</span><span>gm</span><span class="string"
 				>WcQEl</span
-			><span>er</span><span class="string">kyEF8</span><span>.</span><span class="string"
+			><span>ail</span><span class="string">kyEF8</span><span>.</span><span class="string"
 				>JvCJz</span
-			><span>fan</span><span class="string">62BKg</span>
+			><span>com</span><span class="string">62BKg</span>
 		</p>
 	</div>
 </footer>
