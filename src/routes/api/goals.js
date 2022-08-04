@@ -46,6 +46,7 @@ export async function GET({ locals, url }) {
 	const filterBySeason = url.searchParams.get('season');
 	const filterByType = url.searchParams.get('type');
 	const offset = url.searchParams.get('offset');
+	const ascending = !!url.searchParams.get('ascending');
 
 	const countType =
 		filterByName || filterByTeam || filterByOpponent || filterByNationality ? 'exact' : 'estimated';
@@ -90,7 +91,7 @@ export async function GET({ locals, url }) {
 	const upperLimit = lowerLimit + numOfResults;
 
 	const { data, error, count } = await query
-		.order('timestamp', { ascending: false })
+		.order('timestamp', { ascending })
 		.range(lowerLimit, upperLimit);
 
 	return new Promise((resolve, reject) => {

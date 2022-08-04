@@ -7,6 +7,7 @@
 	let errorMessage = '';
 	let lastKeyPressed = null;
 	let onlyPlayoffs = false;
+	let isAscending = false;
 	let searchBarWidth = null;
 
 	const MODIFIERS = ['name', 'for', 'against', 'country', 'season'];
@@ -69,12 +70,14 @@
 					return { ...acc, [key]: val.replace(/"/g, '') };
 				}, {});
 
-			const queryString = buildQueryString(params);
-			const queryStringWithCheckbox = onlyPlayoffs ? queryString + '&type=P' : queryString;
+			let queryString = buildQueryString(params);
+			queryString = onlyPlayoffs ? queryString + '&type=P' : queryString;
+			queryString = isAscending ? queryString + '&ascending=true' : queryString;
 
 			value = '';
 			onlyPlayoffs = false;
-			goto(`/search/${queryStringWithCheckbox}`);
+			isAscending = false;
+			goto(`/search/${queryString}`);
 		}
 	}
 </script>
@@ -95,6 +98,10 @@
 		<div class="error-message">{errorMessage}</div>
 		<Tooltip {searchBarWidth} />
 		<div class="checkbox-wrapper">
+			<label
+				>Ascending
+				<input type="checkbox" name="ascending" bind:checked={isAscending} />
+			</label>
 			<label
 				>Only playoffs
 				<input type="checkbox" name="only-playoffs" bind:checked={onlyPlayoffs} />
