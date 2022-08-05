@@ -16,6 +16,8 @@
 	$: teamLink = goalData.team.link;
 	$: teamLogoLink = goalData.team.logo_link;
 	$: teamName = goalData.team.name;
+	$: assist1_lastName = goalData.assist1_last_name;
+	$: assist2_lastName = goalData.assist2_last_name;
 
 	$: date = new Date(goalData.date).toLocaleDateString();
 </script>
@@ -38,6 +40,8 @@
 		{teamLink}
 		{teamLogoLink}
 		{teamName}
+		{assist1_lastName}
+		{assist2_lastName}
 	/>
 </div>
 

@@ -14,6 +14,8 @@
 	export let teamName;
 	export let teamLink;
 	export let teamLogoLink;
+	export let assist1_lastName;
+	export let assist2_lastName;
 
 	$: fullName = getFullName(firstName, lastName);
 	$: positionDesc = getPosition(position);
@@ -36,6 +38,14 @@
 				<span title={positionDesc}>{position}</span>
 				<TeamLogoLink class="team-logo" {teamLink} imgLink={teamLogoLink} {teamName} />
 			</p>
+			{#if assist1_lastName}
+				<div class="assists">
+					<span>{assist1_lastName}</span><br />
+					{#if assist2_lastName}
+						<span>{assist2_lastName}</span>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -43,6 +53,7 @@
 <style>
 	.meta-container {
 		display: flex;
+		position: relative;
 	}
 
 	.img-link {
@@ -98,5 +109,15 @@
 	.meta-data :global(.team-logo) {
 		margin-left: 0.6rem;
 		width: 24px;
+	}
+
+	.assists {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		margin-left: 2rem;
+		font-size: 0.9em;
+		line-height: 1.6rem;
+		padding: 0.2rem 0.6rem;
 	}
 </style>
