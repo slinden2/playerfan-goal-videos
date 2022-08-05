@@ -67,11 +67,12 @@
 	}
 
 	.svg-wrapper:hover + .tooltip {
-		display: block;
+		z-index: 1;
+		opacity: 1;
+		transform: translateX(0%);
 	}
 
 	.tooltip {
-		display: none;
 		background-color: var(--black1);
 		border: 2px solid var(--grey1);
 		border-radius: 2px;
@@ -79,7 +80,10 @@
 		top: 50px;
 		right: 25px;
 		position: absolute;
-		z-index: 1;
+		opacity: 0;
+		transform: translateX(250%);
+		opacity: 0;
+		transition: opacity 0.3s ease-in;
 	}
 
 	h3 {
