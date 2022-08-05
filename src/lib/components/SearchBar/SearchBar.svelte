@@ -6,9 +6,11 @@
 	let hasError = false;
 	let showError = false;
 	let lastKeyPressed = null;
+	let searchBarWidth = null;
+
 	let onlyPlayoffs = false;
 	let isAscending = false;
-	let searchBarWidth = null;
+	let searchAssists = false;
 
 	const MODIFIERS = ['name', 'for', 'against', 'country', 'season'];
 	const RE = /^[a-zA-Z\s]*$/g;
@@ -72,10 +74,12 @@
 
 			let queryString = buildQueryString(params);
 			queryString = onlyPlayoffs ? queryString + '&type=P' : queryString;
+			queryString = searchAssists ? queryString + '&assists=true' : queryString;
 			queryString = isAscending ? queryString + '&ascending=true' : queryString;
 
 			value = '';
 			onlyPlayoffs = false;
+			searchAssists = false;
 			isAscending = false;
 			goto(`/search/${queryString}`);
 		}
@@ -105,6 +109,10 @@
 			<label
 				>Only playoffs
 				<input type="checkbox" name="only-playoffs" bind:checked={onlyPlayoffs} />
+			</label>
+			<label
+				>Search assists
+				<input type="checkbox" name="search-assists" bind:checked={searchAssists} />
 			</label>
 		</div>
 	</form>
