@@ -4,7 +4,7 @@
 
 	let value = '';
 	let hasError = false;
-	let errorMessage = '';
+	let showError = false;
 	let lastKeyPressed = null;
 	let onlyPlayoffs = false;
 	let isAscending = false;
@@ -34,7 +34,7 @@
 		}
 
 		if (!hasError) {
-			errorMessage = '';
+			showError = false;
 		}
 	}
 
@@ -52,7 +52,7 @@
 
 	function handleOnSubmit() {
 		if (hasError) {
-			errorMessage = 'Invalid search string';
+			showError = true;
 		} else {
 			const valueLowerCase = value.toLowerCase();
 			let searchArr = [];
@@ -95,7 +95,7 @@
 				placeholder="Search"
 			/>
 		</div>
-		<div class="error-message">{errorMessage}</div>
+		<div class="error-message" class:active={showError}>Invalid search string</div>
 		<Tooltip {searchBarWidth} />
 		<div class="checkbox-wrapper">
 			<label
@@ -137,8 +137,22 @@
 		position: absolute;
 		margin: 0.6rem auto;
 		right: 0;
-		transform: translateY(4px);
+		top: 36px;
+		background-color: var(--black2);
+		z-index: 1;
+		width: 100%;
+		text-align: center;
+		padding: 0.6rem;
+		opacity: 0;
+		z-index: 0;
+		transition: opacity ease-in 0.1s;
 	}
+
+	.error-message.active {
+		z-index: 1;
+		opacity: 1;
+	}
+
 	.checkbox-wrapper {
 		margin: 0.6rem auto;
 		position: absolute;
