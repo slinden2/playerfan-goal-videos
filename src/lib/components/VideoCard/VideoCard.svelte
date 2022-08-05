@@ -17,7 +17,7 @@
 	$: teamLogoLink = goalData.team.logo_link;
 	$: teamName = goalData.team.name;
 
-	const date = new Date(goalData.date).toLocaleDateString();
+	$: date = new Date(goalData.date).toLocaleDateString();
 </script>
 
 <div class="video-card">
