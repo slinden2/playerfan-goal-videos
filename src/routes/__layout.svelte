@@ -13,5 +13,6 @@
 <style>
 	main {
 		min-height: calc(100vh - var(--header-height));
+		padding-bottom: 1rem;
 	}
 </style>

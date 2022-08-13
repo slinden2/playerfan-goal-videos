@@ -136,6 +136,7 @@
 		border: 2px solid var(--black3);
 		background-color: var(--black1);
 		color: var(--white1);
+		cursor: pointer;
 	}
 
 	.load-more button:hover {

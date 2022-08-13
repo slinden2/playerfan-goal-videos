@@ -102,28 +102,40 @@
 		<div class="error-message" class:active={showError}>Invalid search string</div>
 		<Tooltip {searchBarWidth} />
 		<div class="checkbox-wrapper">
-			<label
-				>Ascending
-				<input type="checkbox" name="ascending" bind:checked={isAscending} />
-			</label>
-			<label
-				>Only playoffs
-				<input type="checkbox" name="only-playoffs" bind:checked={onlyPlayoffs} />
-			</label>
-			<label
-				>Search assists
-				<input type="checkbox" name="search-assists" bind:checked={searchAssists} />
-			</label>
+			<div>
+				<label
+					>Ascending
+					<input type="checkbox" name="ascending" bind:checked={isAscending} />
+				</label>
+			</div>
+			<div>
+				<label
+					>Only playoffs
+					<input type="checkbox" name="only-playoffs" bind:checked={onlyPlayoffs} />
+				</label>
+			</div>
+			<div>
+				<label
+					>Search assists
+					<input type="checkbox" name="search-assists" bind:checked={searchAssists} />
+				</label>
+			</div>
 		</div>
 	</form>
 </div>
 
 <style>
 	.search-container {
-		min-width: 200px;
-		width: 95%;
+		width: 85%;
 		margin: 0 auto;
 		position: relative;
+	}
+
+	@media screen and (min-width: 640px) {
+		.search-container {
+			min-width: 350px;
+			width: 100%;
+		}
 	}
 
 	input[type='text'] {
@@ -162,8 +174,14 @@
 	}
 
 	.checkbox-wrapper {
-		margin: 0.6rem auto;
 		position: absolute;
+		top: 42px;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.checkbox-wrapper div {
+		flex-shrink: 0;
 	}
 
 	label {

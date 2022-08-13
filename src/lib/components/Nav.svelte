@@ -25,6 +25,7 @@
 		align-items: center;
 		justify-content: center;
 		margin: 1rem;
+		margin-right: 5rem;
 	}
 
 	.logo :global(.logo-svg) {
