@@ -1,18 +1,18 @@
 <script>
 	import VideoMeta from './VideoMeta.svelte';
 
-	export let modalProps;
+	export let videoProps;
 </script>
 
 <div class="container">
-	<VideoMeta {modalProps} />
+	<VideoMeta {videoProps} />
 	<div class="video-wrapper">
 		<iframe
-			src={`https://www.nhl.com/video/embed/c-${modalProps.id}?autostart=true`}
+			src={`https://www.nhl.com/video/embed/c-${videoProps.id}?autostart=true`}
 			frameborder="0"
 			scrolling="no"
 			allowfullscreen="allowfullscreen"
-			title={modalProps.title}
+			title={videoProps.title}
 		/>
 	</div>
 </div>

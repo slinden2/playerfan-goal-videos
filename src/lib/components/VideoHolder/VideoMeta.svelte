@@ -2,54 +2,54 @@
 	import TeamLogoLink from '../TeamLogoLink.svelte';
 	import Flag from '../Flag.svelte';
 	import { getFullName } from '$lib/utils/getFullName';
-	export let modalProps;
+	export let videoProps;
 
-	const fullName = getFullName(modalProps.player.first_name, modalProps.player.last_name);
-	const [, homeTeamAbbr] = modalProps.blurb.split(':')[0].split('@');
+	const fullName = getFullName(videoProps.player.first_name, videoProps.player.last_name);
+	const [, homeTeamAbbr] = videoProps.blurb.split(':')[0].split('@');
 	let homeTeamLink;
 	let homeTeamLogoLink;
 	let homeTeamName;
 	let awayTeamLink;
 	let awayTeamLogoLink;
 	let awayTeamName;
-	if (homeTeamAbbr === modalProps.team.abbreviation) {
-		homeTeamLink = modalProps.team.link;
-		homeTeamLogoLink = modalProps.team.logo_link;
-		homeTeamName = modalProps.team.name;
-		awayTeamLink = modalProps.opponent.link;
-		awayTeamLogoLink = modalProps.opponent.logo_link;
-		awayTeamName = modalProps.opponent.name;
+	if (homeTeamAbbr === videoProps.team.abbreviation) {
+		homeTeamLink = videoProps.team.link;
+		homeTeamLogoLink = videoProps.team.logo_link;
+		homeTeamName = videoProps.team.name;
+		awayTeamLink = videoProps.opponent.link;
+		awayTeamLogoLink = videoProps.opponent.logo_link;
+		awayTeamName = videoProps.opponent.name;
 	} else {
-		homeTeamLink = modalProps.opponent.link;
-		homeTeamLogoLink = modalProps.opponent.logo_link;
-		homeTeamName = modalProps.opponent.name;
-		awayTeamLink = modalProps.team.link;
-		awayTeamLogoLink = modalProps.team.logo_link;
-		awayTeamName = modalProps.team.name;
+		homeTeamLink = videoProps.opponent.link;
+		homeTeamLogoLink = videoProps.opponent.logo_link;
+		homeTeamName = videoProps.opponent.name;
+		awayTeamLink = videoProps.team.link;
+		awayTeamLogoLink = videoProps.team.logo_link;
+		awayTeamName = videoProps.team.name;
 	}
 </script>
 
 <div class="video-meta">
-	<a href={modalProps.player.link} target="_blank" rel="noopener noreferrer">
-		<img class="modal-avatar" src={modalProps.player.img_link} alt={fullName} title={fullName} /></a
+	<a href={videoProps.player.link} target="_blank" rel="noopener noreferrer">
+		<img class="modal-avatar" src={videoProps.player.img_link} alt={fullName} title={fullName} /></a
 	>
 	<div class="bio">
 		<div class="flag-wrapper">
 			<div class="name-container">
 				<a
 					class="player-link"
-					href={modalProps.player.link}
+					href={videoProps.player.link}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<p>{modalProps.player.first_name}<br />{modalProps.player.last_name}</p>
+					<p>{videoProps.player.first_name}<br />{videoProps.player.last_name}</p>
 				</a>
 				<div class="secondary-data">
-					<p>{modalProps.player.position}</p>
-					<p>#{modalProps.player.jersey_number}</p>
+					<p>{videoProps.player.position}</p>
+					<p>#{videoProps.player.jersey_number}</p>
 				</div>
 			</div>
-			<Flag class="flag" countryCode={modalProps.player.nationality} />
+			<Flag class="flag" countryCode={videoProps.player.nationality} />
 		</div>
 	</div>
 	<div class="team-container">

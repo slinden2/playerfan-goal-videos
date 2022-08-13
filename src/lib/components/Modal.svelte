@@ -1,11 +1,11 @@
 <script>
 	export let modalContent;
-	export let modalProps;
+	export let videoProps;
 </script>
 
 <div on:click|self class="modal">
 	<div class="content">
-		<svelte:component this={modalContent} {modalProps} />
+		<svelte:component this={modalContent} {videoProps} />
 	</div>
 </div>
 

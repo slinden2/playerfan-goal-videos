@@ -16,7 +16,7 @@
 <style>
 	.nav-container {
 		background-color: var(--black2);
-		height: var(--header-height-mobile);
+		height: var(--header-height);
 		border-bottom: 2px solid var(--black3);
 	}
 
@@ -44,7 +44,6 @@
 	@media screen and (min-width: 640px) {
 		.nav-container {
 			display: flex;
-			height: var(--header-height);
 		}
 
 		.logo :global(.logo-svg) {

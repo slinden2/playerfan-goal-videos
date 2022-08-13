@@ -24,6 +24,7 @@ assist2_nationality
 `;
 
 export async function GET({ locals, url }) {
+	const filterById = url.searchParams.get('id');
 	const filterByName = url.searchParams.get('name');
 	const filterByTeam = url.searchParams.get('for');
 	const filterByOpponent = url.searchParams.get('against');
@@ -38,7 +39,11 @@ export async function GET({ locals, url }) {
 		filterByName || filterByTeam || filterByOpponent || filterByNationality ? 'exact' : 'estimated';
 	let query = locals.supabase.from('goal_view').select(FIELDS, { count: countType });
 
-	if (filterByName) {
+	if (filterById) {
+		query = query.eq('id', filterById);
+	}
+
+	if (filterByName && !filterById) {
 		if (!filterByAssists) {
 			query = query.or(
 				`player_first_name.ilike.${filterByName},player_last_name.ilike.${filterByName}`
@@ -50,7 +55,7 @@ export async function GET({ locals, url }) {
 		}
 	}
 
-	if (filterByTeam) {
+	if (filterByTeam && !filterById) {
 		if (filterByTeam.length === 3) {
 			query = query.ilike('team_abbreviation', `%${filterByTeam}%`);
 		} else {
@@ -58,7 +63,7 @@ export async function GET({ locals, url }) {
 		}
 	}
 
-	if (filterByOpponent) {
+	if (filterByOpponent && !filterById) {
 		if (filterByOpponent.length === 3) {
 			query = query.ilike('opponent_abbreviation', `%${filterByOpponent}%`);
 		} else {
@@ -66,7 +71,7 @@ export async function GET({ locals, url }) {
 		}
 	}
 
-	if (filterByNationality) {
+	if (filterByNationality && !filterById) {
 		if (!filterByAssists) {
 			query = query.ilike('player_nationality', filterByNationality);
 		} else {
@@ -76,11 +81,11 @@ export async function GET({ locals, url }) {
 		}
 	}
 
-	if (filterBySeason) {
+	if (filterBySeason && !filterById) {
 		query = query.eq('season', parseInt(filterBySeason));
 	}
 
-	if (filterByType) {
+	if (filterByType && !filterById) {
 		query = query.eq('game_type', filterByType);
 	}
 

@@ -13,7 +13,7 @@
 	let scrollTop = null;
 	let scrollLeft = null;
 	let modalContent;
-	let modalProps = {};
+	let videoProps = {};
 	let moreGoalsAvailable;
 	const limit = 25;
 
@@ -24,7 +24,7 @@
 
 	function toggleModal(component, props) {
 		modalContent = component;
-		modalProps = props;
+		videoProps = props;
 		showModal = !showModal;
 	}
 
@@ -97,7 +97,7 @@
 {/if}
 
 {#if showModal}
-	<Modal on:click={toggleModal} {modalContent} {modalProps} />
+	<Modal on:click={toggleModal} {modalContent} {videoProps} />
 {/if}
 
 <style>
