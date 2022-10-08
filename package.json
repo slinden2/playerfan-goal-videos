@@ -13,6 +13,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-cloudflare": "^1.0.0-next.31",
 		"@sveltejs/kit": "next",
+		"@vitejs/plugin-basic-ssl": "^0.1.2",
 		"eslint": "^8.12.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",

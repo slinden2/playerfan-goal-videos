@@ -2,6 +2,8 @@
 	import TeamLogoLink from '../TeamLogoLink.svelte';
 	import Flag from '../Flag.svelte';
 	import { getFullName } from '$lib/utils/getFullName';
+	import ShareButton from '../ShareButton.svelte';
+
 	export let videoProps;
 
 	const fullName = getFullName(videoProps.player.first_name, videoProps.player.last_name);
@@ -67,6 +69,9 @@
 			teamName={homeTeamName}
 		/>
 	</div>
+	<div class="share-button">
+		<ShareButton id={videoProps.id} blurb={videoProps.blurb} />
+	</div>
 </div>
 
 <style>
@@ -120,7 +125,12 @@
 		display: none;
 	}
 
-	@media screen and (min-width: 300px) and (min-height: 400px) {
+	.share-button {
+		width: 20px;
+		margin: 0 auto;
+	}
+
+	@media screen and (min-width: 340px) and (min-height: 410px) {
 		.team-container {
 			margin-left: auto;
 			display: flex;
@@ -137,9 +147,14 @@
 		.team-container :global(.team-logo) {
 			width: 36px;
 		}
+
+		.share-button {
+			width: 20px;
+			margin: 0 1rem;
+		}
 	}
 
-	@media screen and (min-width: 350px) and (min-height: 450px) {
+	@media screen and (min-width: 390px) and (min-height: 460px) {
 		.team-container :global(.team-logo) {
 			width: 50px;
 		}
@@ -176,6 +191,11 @@
 
 		.team-container :global(.team-logo) {
 			width: 75px;
+		}
+
+		.share-button {
+			width: 36px;
+			margin: 0 2rem;
 		}
 	}
 </style>
