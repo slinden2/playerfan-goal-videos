@@ -1,4 +1,9 @@
-<svg class={$$props.class} viewBox="0 0 147 25" xmlns="http://www.w3.org/2000/svg"
+<svg
+	class={$$props.class}
+	alt={$$props.alt}
+	title={$$props.title}
+	viewBox="0 0 147 25"
+	xmlns="http://www.w3.org/2000/svg"
 	><text
 		xml:space="preserve"
 		style="font-size:25.4px;line-height:1.25;font-family:Racing Sans One;;letter-spacing:1.32292px;word-spacing:1.32292px;fill:#fff;fill-opacity:1;stroke-width:.264583"
