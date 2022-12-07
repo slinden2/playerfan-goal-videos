@@ -1,30 +1,28 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/env';
-	import Modal from './Modal.svelte';
+	import { browser } from '$app/environment';
+	import VideoModal from './VideoModal/VideoModal.svelte';
 	import VideoCard from './VideoCard/VideoCard.svelte';
 	import goalStore from '$lib/stores/goalStore';
 
 	export let goals;
 	export let count;
-	export let search;
+	export let searchParams = undefined;
+	$: goalStore.set(goals);
 
 	let showModal = false;
 	let scrollTop = null;
 	let scrollLeft = null;
-	let modalContent;
 	let videoProps = {};
 	let moreGoalsAvailable;
 	const limit = 25;
 
 	$: {
-		goalStore.set(goals);
 		moreGoalsAvailable = !!count && count > limit;
 	}
 
-	function toggleModal(component, props) {
-		modalContent = component;
-		videoProps = props;
+	function toggleModal(modalData) {
+		videoProps = modalData;
 		showModal = !showModal;
 	}
 
@@ -54,17 +52,18 @@
 		if (moreGoalsAvailable) {
 			const newOffset = $goalStore.length;
 			try {
-				const queryUrl = !search
-					? `/api/goals?offset=${newOffset}`
-					: `../api/goals?${search}&offset=${newOffset}`;
-				const response = await fetch(queryUrl);
+				if (!searchParams) {
+					searchParams = new URLSearchParams();
+				}
+				searchParams.set('offset', newOffset);
+				const response = await fetch(`/api/goals?${searchParams}`);
 				const { goals } = await response.json();
 				goalStore.set([...$goalStore, ...goals]);
 				if (newOffset + limit >= count) {
 					moreGoalsAvailable = false;
 				}
 			} catch (err) {
-				console.error('Error fetching more posts in MainWindow');
+				console.error(`Error while fetching more posts in MainWindow\n${err}`);
 			}
 		}
 	}
@@ -97,7 +96,7 @@
 {/if}
 
 {#if showModal}
-	<Modal on:click={toggleModal} {modalContent} {videoProps} />
+	<VideoModal {toggleModal} {videoProps} />
 {/if}
 
 <style>

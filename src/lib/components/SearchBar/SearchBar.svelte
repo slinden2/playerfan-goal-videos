@@ -81,7 +81,7 @@
 			onlyPlayoffs = false;
 			searchAssists = false;
 			isAscending = false;
-			goto(`/search/${queryString}`);
+			goto(`/search?${queryString}`);
 		}
 	}
 </script>

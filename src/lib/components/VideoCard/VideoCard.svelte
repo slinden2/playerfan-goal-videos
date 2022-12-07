@@ -1,10 +1,15 @@
 <script>
-	import VideoHolder from '../VideoHolder/VideoHolder.svelte';
 	import MetaData from './MetaData.svelte';
 	import ShareButton from '../ShareButton.svelte';
 
 	export let goalData;
 	export let toggleModal;
+
+	function handleKeyDown(event) {
+		if (event.code === 'Enter') {
+			toggleModal(goalData);
+		}
+	}
 
 	$: id = goalData.id;
 	$: firstName = goalData.player.first_name;
@@ -25,13 +30,14 @@
 </script>
 
 <div class="video-card">
-	<div class="img-container" on:click={() => toggleModal(VideoHolder, goalData)}>
+	<div class="img-container" on:click={() => toggleModal(goalData)} on:keydown={handleKeyDown}>
 		<img class="thumbnail" src={goalData.thumbnail} alt={goalData.title} title={goalData.title} />
 		<div class="overlay date">{date}</div>
 		<div class="overlay duration">{goalData.duration}</div>
-		<div class="arrow-right" />
-		<div class="overlay share-button" on:click|stopPropagation>
-			<ShareButton class="share-button" {id} {blurb} />
+		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+		<div class="arrow-right" tabindex="0" aria-label="play video" />
+		<div class="overlay share-button">
+			<ShareButton {id} {blurb} />
 		</div>
 	</div>
 	<MetaData
@@ -57,7 +63,6 @@
 	}
 
 	.img-container {
-		cursor: pointer;
 		position: relative;
 	}
 
@@ -103,6 +108,7 @@
 		top: 0;
 		bottom: 0;
 		transition: border 200ms ease-out;
+		cursor: pointer;
 	}
 
 	.img-container:hover .arrow-right {

@@ -24,11 +24,19 @@
 	};
 </script>
 
-<div on:click|stopPropagation={shareGoal}>
+<button on:click|stopPropagation={shareGoal}>
 	<ShareIcon class="share-svg" />
-</div>
+</button>
 
 <style>
+	button {
+		background-color: transparent;
+		border-width: 0;
+		padding: 0;
+		width: 100%;
+		cursor: pointer;
+	}
+
 	:global(.share-svg) {
 		fill: var(--white1);
 	}

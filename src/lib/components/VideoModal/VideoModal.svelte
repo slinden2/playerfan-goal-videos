@@ -1,11 +1,22 @@
 <script>
-	export let modalContent;
+	import VideoModalContent from './VideoModalContent.svelte';
+
+	export let toggleModal;
 	export let videoProps;
+
+	function handleKeyDown(event) {
+		if (event.code === 'Escape') {
+			toggleModal({});
+		}
+	}
 </script>
 
-<div on:click|self class="modal">
+<svelte:window on:keydown={handleKeyDown} />
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div on:click|self={() => toggleModal({})} class="modal">
 	<div class="content">
-		<svelte:component this={modalContent} {videoProps} />
+		<VideoModalContent {videoProps} />
 	</div>
 </div>
 

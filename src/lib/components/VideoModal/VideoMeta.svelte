@@ -5,6 +5,7 @@
 	import ShareButton from '../ShareButton.svelte';
 
 	export let videoProps;
+	export let mmheight;
 
 	const fullName = getFullName(videoProps.player.first_name, videoProps.player.last_name);
 	const [, homeTeamAbbr] = videoProps.blurb.split(':')[0].split('@');
@@ -31,7 +32,7 @@
 	}
 </script>
 
-<div class="video-meta">
+<div class="video-meta" bind:offsetHeight={mmheight}>
 	<a href={videoProps.player.link} target="_blank" rel="noopener noreferrer">
 		<img class="modal-avatar" src={videoProps.player.img_link} alt={fullName} title={fullName} /></a
 	>
