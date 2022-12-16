@@ -27,6 +27,7 @@ assist2_nationality
 
 export async function GET({ locals, url }) {
 	const filterById = url.searchParams.get('id');
+	const filterByPlayerId = url.searchParams.get('pid');
 	const filterByName = url.searchParams.get('name');
 	const filterByTeam = url.searchParams.get('for');
 	const filterByOpponent = url.searchParams.get('against');
@@ -38,11 +39,17 @@ export async function GET({ locals, url }) {
 	const ascending = !!url.searchParams.get('ascending');
 
 	const countType =
-		filterByName || filterByTeam || filterByOpponent || filterByNationality ? 'exact' : 'estimated';
+		filterByPlayerId || filterByName || filterByTeam || filterByOpponent || filterByNationality
+			? 'exact'
+			: 'estimated';
 	let query = locals.supabase.from('goal_view').select(FIELDS, { count: countType });
 
 	if (filterById) {
 		query = query.eq('id', filterById);
+	}
+
+	if (filterByPlayerId) {
+		query = query.eq('player_id', filterByPlayerId);
 	}
 
 	if (filterByName && !filterById) {

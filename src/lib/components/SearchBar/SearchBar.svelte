@@ -1,5 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Flag from '../Flag.svelte';
 	import Tooltip from './Tooltip.svelte';
 
 	let value = '';
@@ -12,6 +14,9 @@
 	let isAscending = false;
 	let searchAssists = false;
 
+	let hideResults = true;
+	$: searchResultArray = [];
+
 	const MODIFIERS = ['name', 'for', 'against', 'country', 'season'];
 	const RE = /^[a-zA-Z\s]*$/g;
 	const RE_MOD = /^((name|for|against|country|season):"\S[a-zA-Z\s0-9]*\S"\s*)+$/g;
@@ -21,23 +26,45 @@
 	}
 
 	function handleInput() {
-		const words = value.split(' ');
-		if (lastKeyPressed !== 'Backspace' && lastKeyPressed !== 'Delete') {
-			if (MODIFIERS.includes(words[words.length - 1].toLowerCase())) {
-				value = value + ':' + '""' + ' ';
-			}
-		}
+		if (value.length > 2) {
+			const searchStr = value.toLowerCase();
+			searchResultArray = $page.data.players.filter((player) => {
+				if (player.last_name.toLowerCase().includes(searchStr)) {
+					return player;
+				}
 
-		// Check if the input contains modifiers
-		if (hasModifiers(value)) {
-			value.match(RE_MOD) ? (hasError = false) : (hasError = true);
+				if (player.first_name.toLowerCase().includes(searchStr)) {
+					return player;
+				}
+			});
 		} else {
-			value.match(RE) ? (hasError = false) : (hasError = true);
+			searchResultArray = [];
 		}
 
-		if (!hasError) {
-			showError = false;
+		if (searchResultArray.length) {
+			hideResults = false;
+		} else {
+			hideResults = true;
 		}
+
+		// const words = value.split(' ');
+
+		// if (lastKeyPressed !== 'Backspace' && lastKeyPressed !== 'Delete') {
+		// 	if (MODIFIERS.includes(words[words.length - 1].toLowerCase())) {
+		// 		value = value + ':' + '""' + ' ';
+		// 	}
+		// }
+
+		// // Check if the input contains modifiers
+		// if (hasModifiers(value)) {
+		// 	value.match(RE_MOD) ? (hasError = false) : (hasError = true);
+		// } else {
+		// 	value.match(RE) ? (hasError = false) : (hasError = true);
+		// }
+
+		// if (!hasError) {
+		// 	showError = false;
+		// }
 	}
 
 	function buildQueryString(obj) {
@@ -86,7 +113,16 @@
 	}
 </script>
 
-<svelte:window on:keydown={(e) => (lastKeyPressed = e.key)} />
+<svelte:window
+	on:keydown={(e) => {
+		lastKeyPressed = e.key;
+	}}
+	on:click={() => {
+		value = '';
+		hideResults = true;
+		searchResultArray = [];
+	}}
+/>
 <div class="search-container">
 	<form on:submit|preventDefault={handleOnSubmit}>
 		<div bind:clientWidth={searchBarWidth}>
@@ -122,6 +158,21 @@
 			</div>
 		</div>
 	</form>
+	<ul class="search-results" class:hideResults>
+		{#each searchResultArray as player}
+			<a href={`/search?pid=${player.id}`} alt={`${player.first_name} ${player.last_name} videos`}>
+				<li>
+					<img src={player.img_link} alt={`${player.first_name} ${player.last_name} avatar`} />
+					<p>{`${player.first_name} ${player.last_name}`}</p>
+					<div class="flag-container">
+						<p class="position">{player.position}</p>
+						<p class="jersey-number">{`#${player.jersey_number}`}</p>
+						<Flag class="flag" countryCode={player.nationality} />
+					</div>
+				</li>
+			</a>
+		{/each}
+	</ul>
 </div>
 
 <style>
@@ -192,5 +243,86 @@
 		margin-left: 0.6rem;
 		margin-right: 0.6rem;
 		transform: translateY(2px);
+	}
+
+	.search-results {
+		position: absolute;
+		background-color: var(--black0);
+		border-radius: 2px;
+		transform: translateY(6px);
+		width: 100%;
+		z-index: 1;
+	}
+
+	.search-results li {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	.search-results li:hover {
+		background-color: var(--black3);
+	}
+
+	.search-results a:focus > li {
+		background-color: var(--black3);
+	}
+
+	.search-results a:not(:last-child) > li {
+		border-block-end: 1px solid var(--black3);
+	}
+
+	.search-results img {
+		border-radius: 50%;
+		width: 30px;
+	}
+
+	.search-results p {
+		font-size: 1.4rem;
+	}
+
+	.flag-container {
+		margin-left: auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		width: 100px;
+		justify-content: center;
+		align-items: center;
+		flex: 0 0 100px;
+	}
+
+	.flag-container > * {
+		justify-self: center;
+	}
+
+	.flag-container .jersey-number {
+		display: none;
+	}
+
+	:global(.flag) {
+		width: 24px;
+		justify-self: center;
+	}
+
+	@media (min-width: 470px) {
+		.flag-container {
+			grid-template-columns: 40px 60px 1fr;
+			flex: 0 0 140px;
+		}
+		.flag-container .jersey-number {
+			display: block;
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.search-results img {
+			border-radius: 50%;
+			width: 50px;
+		}
+	}
+
+	.hideResults {
+		display: none;
 	}
 </style>
