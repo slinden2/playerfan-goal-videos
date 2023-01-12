@@ -4,6 +4,7 @@
 	import VideoModal from './VideoModal/VideoModal.svelte';
 	import VideoCard from './VideoCard/VideoCard.svelte';
 	import goalStore from '$lib/stores/goalStore';
+	import Button from './Button.svelte';
 
 	export let goals;
 	export let count;
@@ -91,7 +92,7 @@
 {/if}
 {#if moreGoalsAvailable}
 	<div class="load-more">
-		<button on:click={showMoreGoals}>Load More</button>
+		<Button onClickCallback={showMoreGoals}>Load More</Button>
 	</div>
 {/if}
 
@@ -101,7 +102,6 @@
 
 <style>
 	.video-container {
-		margin: 3rem 1rem;
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		grid-column-gap: 1.6rem;
@@ -118,7 +118,6 @@
 
 	@media screen and (min-width: 640px) {
 		.video-container {
-			margin: 3rem;
 			grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
 			grid-row-gap: 4rem;
 		}
@@ -126,7 +125,7 @@
 
 	.load-more {
 		text-align: center;
-		margin: 2rem 0;
+		margin: 3rem 0 2rem 0;
 	}
 
 	.load-more button {
