@@ -12,5 +12,6 @@
 		src={`https://countryflagsapi.com/svg/${countryCode}`}
 		alt={countryName + ' ' + 'flag'}
 		title={countryName}
+		crossorigin
 	/>
 {/if}
