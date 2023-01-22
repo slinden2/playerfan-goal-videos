@@ -20,8 +20,14 @@
 	}
 
 	main {
+		margin: 3rem 1rem;
 		height: 100%;
 		min-height: calc(100vh - var(--header-height));
-		padding-bottom: 1rem;
+	}
+
+	@media (min-width: 640px) {
+		main {
+			margin: 3rem;
+		}
 	}
 </style>

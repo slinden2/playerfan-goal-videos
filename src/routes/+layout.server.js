@@ -6,9 +6,7 @@ export async function load({ locals }) {
 		error: sbError,
 		status,
 		statusText
-	} = await locals.supabase.from('players').select();
-
-	console.log(data.length);
+	} = await locals.supabase.from('players').select().order('last_name', { ascending: true });
 
 	if (sbError) {
 		throw error(status, {
