@@ -32,7 +32,7 @@ export async function load({ locals }) {
 	const seasons = seasonResponse.data.map((item) => {
 		const year = item.season;
 		const nextYear = year + 1;
-		return { id: item, name: `${year}-${nextYear}` };
+		return { id: year, name: `${year}-${nextYear}` };
 	});
 
 	const nationalities = nationalityResponse.data.map((item) => {
@@ -56,9 +56,3 @@ export async function load({ locals }) {
 		message: 'Not Found'
 	});
 }
-
-export const actions = {
-	default: async ({ request }) => {
-		console.log(await request.formData());
-	}
-};

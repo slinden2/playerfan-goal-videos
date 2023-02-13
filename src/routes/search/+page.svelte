@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	import Button from '../../lib/components/Button.svelte';
 	import PlayerInputField from '../../lib/components/Search/PlayerInputField.svelte';
 	import SearchSwitches from '../../lib/components/Search/SearchSwitches.svelte';
@@ -24,6 +25,33 @@
 		seasonValue = '';
 		playoffValue = false;
 		sortValue = 'desc';
+	}
+
+	function handleSearch() {
+		// Get text within parentheses
+		const regex = /\((.*)\)/;
+		let scorerId = '';
+		if (scorerValue) {
+			scorerId = scorerValue.match(regex).pop();
+		}
+
+		let assistId = '';
+		if (assistValue) {
+			assistId = assistValue.match(regex).pop();
+		}
+
+		const gameType = playoffValue ? 'P' : 'R';
+
+		const searchParams = new URLSearchParams();
+		searchParams.append('pid', scorerId);
+		searchParams.append('apid', assistId);
+		searchParams.append('for', teamForValue);
+		searchParams.append('against', teamAgainstValue);
+		searchParams.append('country', nationalityValue);
+		searchParams.append('season', seasonValue);
+		searchParams.append('game-type', gameType);
+		searchParams.append('sort', sortValue);
+		goto(`search/q/?${searchParams.toString()}`);
 	}
 </script>
 
@@ -61,7 +89,7 @@
 		<SelectField bind:value={seasonValue} name="season" label="Season" data={data.seasons} />
 		<SearchSwitches bind:playoffValue bind:sortValue />
 		<div class="btn-container">
-			<Button type="submit">Search</Button>
+			<Button onClickCallback={handleSearch}>Search</Button>
 			<Button onClickCallback={resetFields}>Clear</Button>
 		</div>
 	</form>

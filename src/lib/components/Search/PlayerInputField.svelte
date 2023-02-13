@@ -1,12 +1,13 @@
 <script>
-	import Flag from '../Flag.svelte';
 	import FieldLabel from './FieldLabel.svelte';
 	import SearchResults from './SearchResults.svelte';
 
 	export let name;
-	export let label;
+	export let label = '';
+	export let placeholder = '';
 	export let players;
 	export let value = '';
+	export let playerId = null;
 	let searchResultArray = [];
 	let showResults = false;
 
@@ -36,9 +37,11 @@
 </script>
 
 <div>
-	<FieldLabel {name}>{label}</FieldLabel>
-	<input bind:value on:input={handleInput} type="text" {name} />
-	<SearchResults bind:value playerArray={searchResultArray} />
+	{#if label}
+		<FieldLabel {name}>{label}</FieldLabel>
+	{/if}
+	<input bind:value on:input={handleInput} type="text" {name} {placeholder} {playerId} />
+	<SearchResults bind:value playerArray={searchResultArray} bind:playerId />
 </div>
 
 <style>

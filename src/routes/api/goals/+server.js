@@ -17,9 +17,11 @@ embed_video_url,
 player,
 team,
 opponent,
+assist1_id,
 assist1_first_name,
 assist1_last_name,
 assist1_nationality,
+assist2_id,
 assist2_first_name,
 assist2_last_name,
 assist2_nationality
@@ -28,15 +30,15 @@ assist2_nationality
 export async function GET({ locals, url }) {
 	const filterById = url.searchParams.get('id');
 	const filterByPlayerId = url.searchParams.get('pid');
+	const filterByAssists = url.searchParams.get('apid');
 	const filterByName = url.searchParams.get('name');
 	const filterByTeam = url.searchParams.get('for');
 	const filterByOpponent = url.searchParams.get('against');
 	const filterByNationality = url.searchParams.get('country');
 	const filterBySeason = url.searchParams.get('season');
-	const filterByType = url.searchParams.get('type');
-	const filterByAssists = !!url.searchParams.get('assists');
+	const filterByGameType = url.searchParams.get('game-type');
 	const offset = url.searchParams.get('offset');
-	const ascending = !!url.searchParams.get('ascending');
+	const sort = url.searchParams.get('sort');
 
 	const countType =
 		filterByPlayerId || filterByName || filterByTeam || filterByOpponent || filterByNationality
@@ -52,50 +54,28 @@ export async function GET({ locals, url }) {
 		query = query.eq('player_id', filterByPlayerId);
 	}
 
-	if (filterByName && !filterById) {
-		if (!filterByAssists) {
-			query = query.or(
-				`player_first_name.ilike.${filterByName},player_last_name.ilike.${filterByName}`
-			);
-		} else {
-			query = query.or(
-				`assist1_first_name.ilike.${filterByName},assist1_last_name.ilike.${filterByName},assist2_first_name.ilike.${filterByName},assist2_last_name.ilike.${filterByName}`
-			);
-		}
+	if (filterByAssists) {
+		query = query.or(`assist1_id.eq.${filterByAssists},assist2_id.eq.${filterByAssists}`);
 	}
 
-	if (filterByTeam && !filterById) {
-		if (filterByTeam.length === 3) {
-			query = query.ilike('team_abbreviation', `%${filterByTeam}%`);
-		} else {
-			query = query.ilike('team_name', `%${filterByTeam}%`);
-		}
+	if (filterByTeam) {
+		query = query.eq('team_id', filterByTeam);
 	}
 
-	if (filterByOpponent && !filterById) {
-		if (filterByOpponent.length === 3) {
-			query = query.ilike('opponent_abbreviation', `%${filterByOpponent}%`);
-		} else {
-			query = query.ilike('opponent_name', `%${filterByOpponent}%`);
-		}
+	if (filterByOpponent) {
+		query = query.eq('opponent_id', filterByOpponent);
 	}
 
-	if (filterByNationality && !filterById) {
-		if (!filterByAssists) {
-			query = query.ilike('player_nationality', filterByNationality);
-		} else {
-			query = query.or(
-				`assist1_nationality.ilike.${filterByNationality},assist2_nationality.ilike.${filterByNationality}`
-			);
-		}
+	if (filterByNationality) {
+		query = query.eq('player_nationality', filterByNationality);
 	}
 
-	if (filterBySeason && !filterById) {
-		query = query.eq('season', parseInt(filterBySeason));
+	if (filterBySeason) {
+		query = query.eq('season', filterBySeason);
 	}
 
-	if (filterByType && !filterById) {
-		query = query.eq('game_type', filterByType);
+	if (filterByGameType) {
+		query = query.eq('game_type', filterByGameType);
 	}
 
 	const lowerLimit = offset ? parseInt(offset) : 0;
@@ -103,7 +83,7 @@ export async function GET({ locals, url }) {
 	const upperLimit = lowerLimit + numOfResults;
 
 	const { data, count } = await query
-		.order('timestamp', { ascending })
+		.order('timestamp', { ascending: sort === 'asc' })
 		.range(lowerLimit, upperLimit);
 
 	if (!data) {

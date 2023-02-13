@@ -1,6 +1,6 @@
 <script>
 	import Logo from '$lib/assets/Logo.svelte';
-	import SearchBar from './SearchBar/SearchBar.svelte';
+	import SearchBar from './Search/SearchBar.svelte';
 </script>
 
 <div class="nav-container">

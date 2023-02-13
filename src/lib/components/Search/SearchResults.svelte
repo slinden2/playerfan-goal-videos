@@ -3,14 +3,16 @@
 
 	export let playerArray;
 	export let value;
+	export let playerId = null;
 
 	function handleSelection(player) {
 		value = `${player.first_name} ${player.last_name} (${player.id})`;
+		playerId = player.id;
 	}
 </script>
 
 <svelte:window
-	on:click={(e) => {
+	on:click={() => {
 		playerArray = [];
 	}}
 	on:keydown={(e) => {
@@ -23,7 +25,7 @@
 	{#each playerArray as player}
 		<button
 			alt={`select ${player.first_name} ${player.last_name}`}
-			on:click|preventDefault={() => handleSelection(player)}
+			on:click={() => handleSelection(player)}
 		>
 			<li>
 				<img src={player.img_link} alt={`${player.first_name} ${player.last_name} avatar`} />

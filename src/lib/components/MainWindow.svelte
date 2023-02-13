@@ -80,10 +80,7 @@
 	<div class="no-results">
 		<div>
 			<p>No results found.</p>
-			<p>
-				Please try a different search. Click the question mark next to the search bar for search
-				tips.
-			</p>
+			<p>Please check the fields and try against.</p>
 		</div>
 		<div class="load-more">
 			<button on:click={() => goto('/')}>Back</button>
